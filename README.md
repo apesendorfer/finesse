@@ -1,4 +1,4 @@
-# Finnese Writing + AI Project
+# Finesse Writing + AI Project
 
 Project Team:
 Alex and Ben
