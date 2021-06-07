@@ -3,5 +3,5 @@
 Project Team:
 Alex and Ben
 
-Supervisor:
-Jaan
+Supervisors:
+Katy, Jaan
