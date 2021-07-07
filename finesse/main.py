@@ -8,9 +8,13 @@ import numpy as np
 from numpy import dot
 from numpy.linalg import norm
 
+from nltk.parse import CoreNLPParser
+
 # cos_sim = dot(a, b)/(norm(a)*norm(b))
 
-model = fasttext.load_model("/Users/benja/downloads/cc.en.300.bin.gz")
+model = fasttext.load_model("/Users/alex/result/cc.en.300.bin")
+# model = fasttext.load_model("/Users/benja/downloads/cc.en.300.bin.gz")
+
 
 
 ## next steps?: preprocess recommendations on some 30k most common words
@@ -32,9 +36,9 @@ class Finesse:
 
     #
     def __init__(self, words, arr, d):
-        self.words = [] # list of words as strings
-        self.arr = []   # list of vectors of words
-        self.d = {}     # part of speech dictionary
+        self.words = words # list of words as strings
+        self.arr = arr     # list of vectors of words
+        self.d = d         # part of speech dictionary
 
 
 
@@ -63,28 +67,13 @@ class Finesse:
 
             try:
                 if user_word_pos in self.d[self.words[indices[i]]]:
-                     synList.append(self.words[indices[i]])
+                     syn_list.append(self.words[indices[i]])
                      count += 1
 
             except:
                 continue
             # in the future, to fix the broad except statement,
             # we may want to remove excess words from words[]
-
-
-
-
-
-        # for key in sorted_dict:
-        #     try:
-        #         if input_sent_pos[word_index][1] in d[key]:
-        #             synList.append(key)
-        #             count += 1
-        #         if count == 5:
-        #             break
-        #
-
-        # print("---")
 
         return syn_list
 
@@ -105,9 +94,28 @@ class Finesse:
             user_word_vec = model.get_word_vector(user_word)
             user_word_pos = input_sent_pos[word_index][1]
 
-            output_list.append(find_synonyms(0.4, user_word_vec, user_word_pos))
+            output_list.append(self.find_synonyms(0.4, user_word_vec, user_word_pos))
 
 
 
+# Set of words from combined TF-IDF analysis results
+f = open("word_list.txt", "r")
+doc = f.read()
+f.close()
+words = doc.split(", ")
+
+arr = np.ndarray(shape=(29153, 300))
+# Store word vectors for the 29153 words in numpy array
+
+# Normalize all vectors when filling the array
+for i in range(0, 29153):
+    vec = model.get_word_vector(words[i])
+    arr[i] = np.array(vec)
+    arr[i] = arr[i] / np.norm(arr[i])
 
 
+# IMPORT DICTIONARY FROM TEXT FILE
+
+fin = Finesse(words, arr, d)
+
+fin.sentence_suggestions()
