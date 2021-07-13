@@ -1,5 +1,9 @@
-
-import fasttext
+import timeit
+start = timeit.default_timer()
+import config
+stop = timeit.default_timer()
+print('Import libraries: ', stop - start)
+#import fasttext
 
 import numpy as np
 
@@ -8,16 +12,12 @@ import numpy as np
 from numpy import dot
 from numpy.linalg import norm
 
-from nltk.parse import CoreNLPParser
-
-import timeit
+from nltk.parse import CoreNLPParserg
 
 # cos_sim = dot(a, b)/(norm(a)*norm(b))
-start = timeit.default_timer()
-model = fasttext.load_model("/Users/alex/result/cc.en.300.bin")
+model = config.model
+#model = fasttext.load_model("/Users/alex/result/cc.en.300.bin")
 # model = fasttext.load_model("/Users/benja/downloads/cc.en.300.bin.gz")
-stop = timeit.default_timer()
-print('Loading Model Time: ', stop - start)
 
 
 ## next steps?: preprocess recommendations on some 30k most common words
@@ -109,10 +109,9 @@ class Finesse:
 
 start = timeit.default_timer()
 # Set of words from combined TF-IDF analysis results
-f = open("word_list.txt", "r")
-doc = f.read()
-f.close()
-words = doc.split(", ")
+with open('word_list.txt', 'r') as fle:
+    data = fle.read()
+words = data.split(", ")
 stop = timeit.default_timer()
 print('Word List Time: ', stop - start)
 
@@ -140,21 +139,25 @@ print('Vector Array Time: ', stop - start)
 
 import ast
 start = timeit.default_timer()
-file = open("pos_dict.txt", "r")
-
-contents = file.read()
+with open('pos_dict.txt', 'r') as fle:
+    contents = fle.read()
 dictionary = ast.literal_eval(contents)
-file.close()
-
 stop = timeit.default_timer()
 print('Dictionary Time: ', stop - start)
 
+start = timeit.default_timer()
 fin = Finesse(words, arr, dictionary)
+stop = timeit.default_timer()
+print('Instantiate Finesse Object: ', stop - start)
 
+start = timeit.default_timer()
 print(fin.sentence_suggestions("What a wonderful day!"))
+stop = timeit.default_timer()
+print('Short sentence suggestions: ', stop - start)
+
 print("----------------\n")
 
 start = timeit.default_timer()
 print(fin.sentence_suggestions("Tokarczuk postulates the book’s ambiguous and fluid nature in the few first pages, developing a narrator with a yearning for the past, present, and future."))
 stop = timeit.default_timer()
-print('Time: ', stop - start)
+print('Long sentence suggestions: ', stop - start)
