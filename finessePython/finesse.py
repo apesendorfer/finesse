@@ -1,52 +1,15 @@
-import timeit
-start = timeit.default_timer()
-import config
-stop = timeit.default_timer()
-print('Import libraries: ', stop - start)
-#import fasttext
-
 import numpy as np
-
-# cosine similarity of word vectors
-
-from numpy import dot
 from numpy.linalg import norm
 
 from nltk.parse import CoreNLPParser
 
-# cos_sim = dot(a, b)/(norm(a)*norm(b))
-model = config.model
-#model = fasttext.load_model("/Users/alex/result/cc.en.300.bin")
-# model = fasttext.load_model("/Users/benja/downloads/cc.en.300.bin.gz")
-
-
-## next steps?: preprocess recommendations on some 30k most common words
-
-## long term goals: 1. bigrams, trigrams**, etc and 2. changing/allowing
-## flexibility in tf/idf texts
-
-# bigram example
-
-## user text: going crazy
-## suggestion: going like mad
-
-# kerouac quote: "bop was going like mad all over America"
-
-
-## **plagiarism becomes a bigger worry
-
 class Finesse:
-
     # Constructor
-    def __init__(self, words, arr, d):
+    def __init__(self, model, words, arr, d):
+        self.model = model
         self.words = words # list of words as strings
         self.arr = arr     # list of vectors of words
         self.d = d         # part of speech dictionary
-
-
-
-    # user word
-
 
     # Takes as input a cosine similarity threshold, word vector, and word part of speech and returns up to 5 synonyms.
     def find_synonyms(self, cos_sim, user_word, user_word_vec, user_word_pos):
