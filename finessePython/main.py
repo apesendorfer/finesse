@@ -3,8 +3,8 @@ import numpy as np
 from numpy.linalg import norm
 import spacy
 
-model = fasttext.load_model("/Users/alex/Documents/GitHub/finesse/finessePython/fasttext_model/cc.en.300.bin")
-nlp = spacy.load("en_core_web_sm")
+# model = fasttext.load_model("fasttext_model/cc.en.300.bin")
+nlp = spacy.load("en_core_web_lg") # or load en_core_web_sm for greater efficiency
 
 class Finesse:
     # Constructor
@@ -48,7 +48,8 @@ class Finesse:
         output_list = []
         for word_index in range(len(input_sent)):
             user_word = input_sent[word_index].lower()
-            user_word_vec = model.get_word_vector(user_word)
+            user_word_vec = doc[word_index].vector
+            #user_word_vec = model.get_word_vector(user_word)
             user_word_pos = input_sent_pos[word_index]
             output_list.append(self.find_synonyms(0.4, user_word, user_word_vec, user_word_pos))
         return output_list
