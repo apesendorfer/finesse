@@ -1,9 +1,10 @@
 import fasttext
 import numpy as np
 from numpy.linalg import norm
-from nltk.parse import CoreNLPParser
+import spacy
 
-model = fasttext.load_model("fasttext_model/cc.en.300.bin")
+model = fasttext.load_model("/Users/alex/Documents/GitHub/finesse/finessePython/fasttext_model/cc.en.300.bin")
+nlp = spacy.load("en_core_web_sm")
 
 class Finesse:
     # Constructor
@@ -38,16 +39,17 @@ class Finesse:
 
     # Takes a string as input (a sentence), and returns a list of lists containing the synonym suggestions for each word in the original sentence.
     def sentence_suggestions(self, input_sent: str) -> list:
-        parser = CoreNLPParser(url='http://localhost:9000')
-        input_sent = parser.tokenize(input_sent)
-        pos_tagger = CoreNLPParser(url='http://localhost:9000', tagtype='pos')
-        input_sent_pos = list(pos_tagger.tag(input_sent))
-        sent_length = len(input_sent_pos)
+        doc = nlp(input_sent)
+        input_sent = []
+        input_sent_pos = []
+        for token in doc:
+            input_sent.append(token.text)
+            input_sent_pos.append(token.tag_)
         output_list = []
-        for word_index in range(sent_length):
-            user_word = input_sent_pos[word_index][0].lower()
+        for word_index in range(len(input_sent)):
+            user_word = input_sent[word_index].lower()
             user_word_vec = model.get_word_vector(user_word)
-            user_word_pos = input_sent_pos[word_index][1]
+            user_word_pos = input_sent_pos[word_index]
             output_list.append(self.find_synonyms(0.4, user_word, user_word_vec, user_word_pos))
         return output_list
 
