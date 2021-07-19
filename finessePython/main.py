@@ -2,8 +2,15 @@ import fasttext
 import numpy as np
 from numpy.linalg import norm
 import spacy
+import time
 
+start = time.time()
 model = fasttext.load_model("fasttext_model/cc.en.300.bin")
+stop  = time.time()
+
+runtime = stop - start
+print("time: " + str(runtime))
+
 nlp = spacy.load("en_core_web_sm") # or load en_core_web_sm for greater efficiency
 
 class Finesse:
