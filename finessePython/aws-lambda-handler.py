@@ -5,10 +5,10 @@ import spacy
 import json
 import boto3
 import os
-# import base64
+import base64
 
-ACCESS_KEY = os.environ["ACCESS_KEY"]
-SECRET_ACCESS_KEY = os.environ["SECRET_ACCESS_KEY"]
+ACCESS_KEY = os.environ["AWS_ACCESS_KEY_ID"]
+SECRET_ACCESS_KEY = os.environ["AWS_SECRET_ACCESS_KEY"]
 
 def lambda_handler(event, context):
     BUCKET = "finesse-data"
