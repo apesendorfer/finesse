@@ -1,2 +1,47 @@
 <!DOCTYPE html>
+<html lang="en" dir="ltr">
 
+    <head>
+        <meta charset="utf-8">
+        <title>Text Editor</title>
+    </head>
+
+    <body>
+        <section class="">
+        <h1 id = "header">TEXT EDITOR</h1>
+          <div>
+            <div class="row">
+              <div class="col">
+                <button type="button" onclick="f1()" data-toggle="tooltip" data-placement="top" title="Finesse">Finesse it</button>
+
+              </div>
+              
+            </div>
+          </div>
+          <br>
+
+            <div>
+                <textarea  id="textarea1" name="name" rows="15" cols="100" placeholder="Your text here "></textarea>
+            </div>
+
+            <div id="output" rows="15" cols="100">
+            </div>
+          </div>
+        </section>
+      <br>
+      
+      <br>
+        <script>
+            function f1(){
+      
+        inputText = document.getElementById("textarea1").value;
+        
+        document.getElementById("output").innerHTML = f2(inputText)
+      }
+      
+      function f2(text){
+          return text
+      }
+        </script>
+    </body>
+</html>
