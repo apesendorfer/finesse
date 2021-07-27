@@ -32,37 +32,31 @@
       
       <br>
         <script>
-            function f1(){
-      
-        inputText = document.getElementById("textarea1").value;
-        var payload = {
-          method: 'GET', // *GET, POST, PUT, DELETE, etc.
-          mode: 'no-cors', // no-cors, *cors, same-origin
-          headers: {
-          'Content-Type': 'application/json'
-          // body: JSON.stringify(data) // body data type must match "Content-Type" header
-          },
+        function f1(){
+          inputText = document.getElementById("textarea1").value;
+          var payload = {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            body: JSON.stringify(inputText),
+            headers: {
+              'origin': 'https://apesendorfer.github.io',
+              'Content-Type': 'application/json',
+            // body: JSON.stringify(data) // body data type must match "Content-Type" header
+            },
           
-        };
-        const Url = "https://85pmbr8ole.execute-api.us-east-2.amazonaws.com/test/texts";
-        console.log(fetch(Url, payload));
-        console.log("---------")
-        document.getElementById("output").innerHTML = f2(inputText, Url, payload);
-      }
-      
-      
-
-      function f2(text, Url, payload){ //in the future, text must be taken as a parameter
-  
-        //(async () => {
-          let all_text = fetch(Url, payload) //await fetch
-            .then((response) => response.json())
-            .then((data) => {
-              return data;
+          };
+          const Url = "https://85pmbr8ole.execute-api.us-east-2.amazonaws.com/test/texts";
+          var outputText = "";
+          fetch(Url, payload)
+            .then(function (response) {
+              return response.json()
+            })
+            .then(function (data) {
+              console.log('post request repsonse data', data);
+              document.getElementById("header").innerHTML = data;
+              outputText = data;
             });
-        //});
-
-        return all_text
+          document.getElementById("output").innerHTML = outputText;
       }
         </script>
     </body>
