@@ -19,7 +19,7 @@ for i in range(0, 29153):
 with open('tfidf_word_vectors.npy', 'wb') as f:
     np.save(f, arr)
 
-with open('test.npy', 'rb') as f:
+with open('tfidf_word_vectors.npy', 'rb') as f:
     a = np.load(f)
 
 print(a[0])

@@ -17,18 +17,21 @@ def lambda_handler(event, context):
     )
     # Load models
     model = fasttext.load_model(client.get_object(Bucket=BUCKET, Key="cc.en.300.bin"))
-    nlp = spacy.load("en_core_web_sm") # or load en_core_web_sm for greater efficiency
+    nlp = spacy.load("en_core_web_sm")
     
     # Load word list: set of words from combined TF-IDF analysis results
     word_list_fle = client.get_object(Bucket=BUCKET, Key="word_list.json")
     words = json.loads(word_list_fle.read().decode())
 
     # Create numpy array and store normalized word vectors
-    arr = np.ndarray(shape=(29153, 300))
-    for i in range(0, 29153):
-        vec = model.get_word_vector(words[i])
-        arr[i] = np.array(vec)
-        arr[i] = arr[i] / norm(arr[i])
+    # arr = np.ndarray(shape=(29153, 300))
+    # for i in range(0, 29153):
+    #     vec = model.get_word_vector(words[i])
+    #     arr[i] = np.array(vec)
+    #     arr[i] = arr[i] / norm(arr[i])
+    tfidf_word_vectors_fle = client.get_object(Bucket=BUCKET, Key="tfidf_word_vectors.npy")
+    with open(tfidf_word_vectors_fle, 'rb') as f:
+        arr = np.load(f)
 
     dict_fle = client.get_object(Bucket=BUCKET, Key="part_of_speech_lookup.json")
     dictionary = json.loads(dict_fle.read().decode())

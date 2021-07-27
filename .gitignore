@@ -3,3 +3,4 @@
 finessePython/fasttext_model/cc.en.300.bin
 finessePython/fasttext_model/cc.en.100.bin
 finessePython/fasttext_model/cc.en.200.bin
+finessePython/all_word_vectors.npy
