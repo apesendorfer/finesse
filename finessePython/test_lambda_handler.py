@@ -1,4 +1,3 @@
-import fasttext
 import numpy as np
 from numpy.linalg import norm
 import spacy
@@ -104,7 +103,7 @@ def lambda_handler(event, context):
         return response
     
 test = lambda_handler({
-    'text':'This is a sentence.',
+    'text':'Tokarczuk postulates the book’s ambiguous and fluid nature in the few first pages, developing a narrator with a yearning for the past, present, and future.',
     'headers': {
         'origin':'https://apesendorfer.github.io'
     }
